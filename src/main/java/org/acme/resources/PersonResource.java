@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.resources;
 
 
 import jakarta.inject.Inject;
@@ -15,6 +15,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+
+import org.acme.models.Person;
+import org.acme.services.PersonService;
 
 @Path("/persons")
 @Produces(MediaType.APPLICATION_JSON)
@@ -66,6 +69,7 @@ public class PersonResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.noContent().build();
+        personService.deletePerson(id);
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 }

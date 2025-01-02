@@ -1,4 +1,6 @@
-package org.acme;
+package org.acme.repositories;
+
+import org.acme.models.Person;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
