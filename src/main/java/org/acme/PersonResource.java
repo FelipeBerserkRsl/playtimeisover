@@ -22,60 +22,50 @@ import java.util.List;
 public class PersonResource {
 
     @Inject
-    PersonRepository personRepository;
+    PersonService personService;
 
     @GET
-    public List<Person> getAllPersons() {
-        return personRepository.listAll();
+    public Response getAllPersons() {
+        List<Person> persons = personService.getAllPersons();
+        return Response.ok(persons).build();
     }
+        
 
     @GET
     @Path("/{id}")
-    public Person getPerson(@PathParam("id") Long id) {
-        return personRepository.findById(id);
+    public Response getPerson(@PathParam("id") Long id) {
+        if (personService.getPerson(id) == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(personService.getPerson(id)).build();
     }
 
     @POST
     @Transactional
     public Response createPerson(Person person) {
-        if (person.id != null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
-        person.getAddresses().forEach(address -> address.setPerson(person));
-
-        personRepository.persist(person);
-
-
-        return Response.status(Response.Status.CREATED).build();
+        return Response.ok(personService.createPerson(person)).build();
     }
 
     @PUT
     @Path("/{id}")
     @Transactional
     public Response updatePerson(@PathParam("id") Long id, Person person) {
-        Person entity = personRepository.findById(id);
-
-        if (entity == null) {
+        if (personService.getPerson(id) == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        entity.setName(person.getName());
-        entity.setUserName(person.getUserName());
-        entity.setPassword(person.getPassword());
-   
-        return Response.ok(entity).build();
+        return Response.ok(personService.updatePerson(id, person)).build();
     }
 
     @DELETE
     @Path("/{id}")
     @Transactional
     public Response deletePerson(@PathParam("id") Long id) {
-        Person entity = personRepository.findById(id); 
-        if (entity == null) {
+        if (personService.getPerson(id) == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        personRepository.delete(entity);
+
         return Response.noContent().build();
     }
 }
