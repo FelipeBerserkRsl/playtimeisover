@@ -26,6 +26,13 @@ public class Address extends PanacheEntity {
     public Address() {
     }
 
+    public Address(String street, String city, String number, Person person) {
+        this.street = street;
+        this.city = city;
+        this.number = number;
+        this.person = person;
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.person == null) {

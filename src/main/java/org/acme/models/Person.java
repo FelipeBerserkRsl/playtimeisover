@@ -20,7 +20,7 @@ public class Person extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Person_ID", updatable = false, nullable = false)
-    public Long id;
+    private Long id;
 
     private String name;
 
@@ -40,6 +40,14 @@ public class Person extends PanacheEntityBase {
         this.name = name;
         this.userName = userName;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

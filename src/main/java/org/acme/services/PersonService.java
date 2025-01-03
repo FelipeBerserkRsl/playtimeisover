@@ -39,7 +39,6 @@ public class PersonService {
         entity.setUserName(person.getUserName());
         entity.setPassword(person.getPassword());
 
-        // Atualizar endereços
         List<Address> updatedAddresses = person.getAddresses().stream().map(address -> {
             if (address.id != null) {
                 Address existingAddress = addressRepository.findById(address.id);
@@ -72,9 +71,4 @@ public class PersonService {
     public List<Person> getAllPersons() {
         return personRepository.listAll();
     }
-
-    public List<Person> getPersonByName(String name) {
-        return personRepository.find("name", name).list();
-    }
-
 }
